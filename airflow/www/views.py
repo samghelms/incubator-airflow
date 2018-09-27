@@ -237,6 +237,14 @@ def render(obj, lexer):
 def wrapped_markdown(s):
     return '<div class="rich_doc">' + markdown.markdown(s) + "</div>"
 
+def ipython_lexer(nb_s):
+    out = '<div id="ipython_notebook"/>'
+    out += '<script>\n\tvar ipynb = JSON.parse({nb_s});'.format(nb_s=nb_s)
+    out += '\tvar notebook = nb.parse(ipynb);\n'
+    out += '\tvar rendered = notebook.render();\n'
+    out += '\tvar nbContainer = document.getElementByID("ipython_notebook");\n'
+    out += '\tnbContainer.appendChild(rendered);\n</script>'
+    return out
 
 attr_renderer = {
     'bash_command': lambda x: render(x, lexers.BashLexer),
@@ -251,6 +259,7 @@ attr_renderer = {
         wwwutils.get_python_source(x),
         lexers.PythonLexer,
     ),
+    'ipython_notebook': lambda x: render(x, ipython_lexer)
 }
 
 

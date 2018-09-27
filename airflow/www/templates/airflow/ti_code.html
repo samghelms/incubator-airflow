@@ -18,9 +18,14 @@
 {% extends "airflow/task_instance.html" %}
 {% block title %}Airflow - DAGs{% endblock %}
 
+{% block head_css %}
+{{ super() }}
+<script src="{{ url_for('static', filename='notebook.min.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     {{ super() }}
-    <h4>{{ title }}</h4>
+    <h4>{{ title }} 123</h4>
     {% if html_code %}
         {{ html_code|safe }}
     {% endif %}
@@ -36,6 +41,7 @@
     {% endif %}
     {% if html_dict %}
         {% for k, v in html_dict.items() %}
+          <h5>test</h5>
             <h5>{{ k }}</h5>
             {{ v|safe }}
         {% endfor %}
